@@ -1,0 +1,2349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<log>
+<logentry
+   revision="1768311">
+<date>2016-11-06T12:06:54.574357Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/include/svn_ra.h</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_client/list.c</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_ra/ra_loader.c</path>
+</paths>
+<msg>Use the correct error code to signal that a server does not implement
+svn_ra_list.
+
+* subversion/include/svn_ra.h
+  (svn_ra_list): Explicitly document the error code that can be expected.
+
+* subversion/libsvn_ra/ra_loader.c
+  (svn_ra_list): Return "feature not supported" instead of "entire protocol
+                 scheme not supported".
+
+* subversion/libsvn_client/list.c
+  (list_internal): We now only need to test for one error condition.
+
+Found by: danielsh</msg>
+</logentry>
+<logentry
+   revision="1768310">
+<author>stefan2</author>
+<date>2016-11-06T11:49:26.020048Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/tests/cmdline/basic_tests.py</path>
+<path
+   text-mods="false"
+   kind="file"
+   action="D"
+   prop-mods="false">/subversion/trunk/subversion/tests/cmdline/list_tests.py</path>
+</paths>
+<msg>Get rid of the separate list_tests.py as most of it has been already
+covered by our basic_tests.py (using the alias 'ls' for 'list').
+
+* subversion/tests/cmdline/basic_tests.py
+  (filtered_ls): The list_filtered test carried over from list_test.py
+  (test_list): Register new test.
+
+* subversion/tests/cmdline/list_tests.py
+  (): Remove file.</msg>
+</logentry>
+<logentry
+   revision="1768309">
+<author>stefan2</author>
+<date>2016-11-06T11:46:26.428470Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/include/private/svn_ra_svn_private.h</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_ra_svn/client.c</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_ra_svn/marshal.c</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_ra_svn/protocol</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/svnserve/serve.c</path>
+</paths>
+<msg>Change the ra_svn protocol for the list command response.
+Make all dirent fields optional and have the dirent-fields flags control
+which ones to transmit.
+
+* subversion/libsvn_ra_svn/protocol
+  (3.1.1. Main Command Set):  Replace the sub-struct with a list of
+                              optional fields for the 'list' command.
+                              Also document the optional nature of the
+                              'kind' field and that the dirent-field is
+                              extensible.
+
+* subversion/include/private/svn_ra_svn_private.h
+  (svn_ra_svn__write_dirent): Declare new serialization utility.
+
+* subversion/libsvn_ra_svn/marshal.c
+  (svn_ra_svn__write_dirent): Implement.
+
+* subversion/svnserve/serve.c
+  (list_receiver_baton_t): Pass on the dirent-fields instead of a simple
+                           flag such that we can send exactly what the
+                           client asked for.
+  (list_receiver): Call the new serialization utility.
+  (list): Update caller to baton change.
+
+* subversion/libsvn_ra_svn/client.c
+  (ra_svn_list): Update the format string to reflect the protocol change.
+
+Suggested by: danielsh</msg>
+</logentry>
+<logentry
+   revision="1768305">
+<author>stefan2</author>
+<date>2016-11-06T11:10:58.574525Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/include/private/svn_ra_svn_private.h</path>
+</paths>
+<msg>* subversion/include/private/svn_ra_svn_private.h
+  (svn_ra_svn__write_tuple): Update function names in code example.
+                             No functional change.</msg>
+</logentry>
+<logentry
+   revision="1768304">
+<author>stefan2</author>
+<date>2016-11-06T11:09:36.565326Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/include/private/svn_ra_svn_private.h</path>
+</paths>
+<msg>Follow-up to r1767194:
+
+* subversion/include/private/svn_ra_svn_private.h
+  (svn_ra_svn__parse_tuple):  Update docstring to match the implementation.
+                              No functional change.
+
+Found by: danielsh</msg>
+</logentry>
+<logentry
+   revision="1768185">
+<author>stefan2</author>
+<date>2016-11-05T11:01:39.072168Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_ra_svn/protocol</path>
+</paths>
+<msg>* subversion/libsvn_ra_svn/protocol
+  (3.1.1. Main Command Set): Fix typo.
+
+Found by: danielsh</msg>
+</logentry>
+<logentry
+   revision="1768156">
+<author>ivan</author>
+<date>2016-11-05T07:34:21.741744Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/COMMITTERS</path>
+</paths>
+<msg>* COMMITTERS: Move myself to dormant section since I'm no longer member of
+  Subversion PMC.
+</msg>
+</logentry>
+<logentry
+   revision="1767988">
+<author>svn-role</author>
+<date>2016-11-04T04:00:11.293464Z</date>
+<paths>
+<path
+   text-mods="false"
+   kind="dir"
+   action="M"
+   prop-mods="true">/subversion/branches/1.9.x</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.9.x/STATUS</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.9.x/subversion/bindings/swig/perl/libsvn_swig_perl/swigutil_pl.c</path>
+</paths>
+<msg>Merge r1767768 from trunk:
+
+ * r1767768
+   Fix for "Perl bindings corrupt "{DATE}" revision variable"
+   Justification:
+     User reported problem. Simple fix.
+   Votes:
+     +1: rschupp
+     +0: danielsh, rhuijben
+</msg>
+</logentry>
+<logentry
+   revision="1767987">
+<author>svn-role</author>
+<date>2016-11-04T04:00:07.334668Z</date>
+<paths>
+<path
+   text-mods="false"
+   kind="dir"
+   action="M"
+   prop-mods="true">/subversion/branches/1.8.x</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.8.x/STATUS</path>
+<path
+   text-mods="false"
+   kind="dir"
+   action="M"
+   prop-mods="true">/subversion/branches/1.8.x/subversion</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.8.x/subversion/bindings/swig/perl/libsvn_swig_perl/swigutil_pl.c</path>
+</paths>
+<msg>Merge r1767768 from trunk:
+
+ * r1767768
+   Fix for "Perl bindings corrupt "{DATE}" revision variable"
+   Justification:
+     User reported problem. Simple fix.
+   Votes:
+     +1: rschupp
+     +0: danielsh, rhuijben
+</msg>
+</logentry>
+<logentry
+   revision="1767837">
+<author>rhuijben</author>
+<date>2016-11-03T08:39:46.175770Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.8.x/STATUS</path>
+</paths>
+<msg>* STATUS: Cast two +0 votes. Move perl fixed to approved via binding rules.</msg>
+</logentry>
+<logentry
+   revision="1767835">
+<author>rhuijben</author>
+<date>2016-11-03T08:37:21.357114Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Cast +0 vote and move from vetoed (why?) to approved.</msg>
+</logentry>
+<logentry
+   revision="1767772">
+<author>rschupp</author>
+<date>2016-11-02T20:05:02.658053Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.8.x/STATUS</path>
+</paths>
+<msg>* STATUS: Nomniate r1767768</msg>
+</logentry>
+<logentry
+   revision="1767771">
+<author>rschupp</author>
+<date>2016-11-02T20:04:49.586039Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Nomniate r1767768</msg>
+</logentry>
+<logentry
+   revision="1767768">
+<author>rschupp</author>
+<date>2016-11-02T19:32:05.961900Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/bindings/swig/perl/libsvn_swig_perl/swigutil_pl.c</path>
+</paths>
+<msg>* subversion/bindings/swig/perl/libsvn_swig_perl/swigutil_pl.c:
+  (svn_swig_pl_set_revision) When parsing a revision given as "{DATE}", 
+  restore the closing brace afterwards. Modify error messages to
+  include the originally passed-in string.
+
+Patch by: Rainer Müller &lt;raimue@codingfarm.de&gt;
+</msg>
+</logentry>
+<logentry
+   revision="1767236">
+<author>stsp</author>
+<date>2016-10-31T10:11:46.965540Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/svn/conflict-callbacks.c</path>
+</paths>
+<msg>Uppercase client-specific resolve option labels.
+
+* subversion/svn/conflict-callbacks.c:
+  (extra_resolver_options,
+   extra_resolver_options_text,
+   extra_resolver_options_prop,
+   extra_resolver_options_tree): upper-case labels.
+
+Patch by: Patrick Steinhardt &lt;patrick.steinhardt@elegosoft.com&gt;
+</msg>
+</logentry>
+<logentry
+   revision="1767227">
+<author>stefan2</author>
+<date>2016-10-31T09:04:13.280937Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_repos/list.c</path>
+</paths>
+<msg>Fix 'svn ls' with authz broken by the introduction of svn_repos_list.
+
+* subversion/libsvn_repos/list.c
+  (do_list): Actually check against the current path instead of the base.</msg>
+</logentry>
+<logentry
+   revision="1767202">
+<author>stefan2</author>
+<date>2016-10-30T23:49:55.601182Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/svnbench/cl.h</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/svnbench/null-list-cmd.c</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/svnbench/svnbench.c</path>
+</paths>
+<msg>Add '--search' option support to 'svnbench null-list'.
+
+This replicates features already implemented for 'svn list'.
+
+* subversion/svnbench/cl.h
+  (svn_cl__opt_state_t): Copy SEARCH_PATTERNS from the standard CL client.
+
+* subversion/svnbench/null-list-cmd.c
+  (svn_cl__null_list): Process the search patterns just like in 'svn'.
+
+* subversion/svnbench/svnbench.c
+  (svn_cl__longopt_t,
+   svn_cl__options,
+   svn_cl__cmd_table,
+   add_search_pattern_group,
+   sub_main): Replicate svn's '--search' option.</msg>
+</logentry>
+<logentry
+   revision="1767197">
+<author>stefan2</author>
+<date>2016-10-30T23:43:06.777321Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/include/private/svn_log.h</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/include/svn_ra_svn.h</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_ra_svn/client.c</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_ra_svn/protocol</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_subr/log.c</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/svnserve/serve.c</path>
+</paths>
+<msg>Implement svn_ra_list in ra_svn.  The wire protocol for this command
+has been insprired by the get-log and get-dir commands alike.
+
+* subversion/libsvn_ra_svn/protocol
+  (2.1 Capabilities): Add the 'list' capability.
+  (3.1.1. Main Command Set): Add the protocol of the 'list' command.
+
+* subversion/include/svn_ra_svn.h
+  (SVN_RA_CAPABILITY_LIST): Declare this new capability in code.
+
+* subversion/svnserve/serve.c
+  (list_receiver_baton_t,
+   list_receiver,
+   list): Implement the new command.
+  (main_commands): Register the new command handler.
+  (construct_server_baton): Advertise the new capability.
+
+* subversion/libsvn_ra_svn/client.c
+  (ra_svn_has_capability): Check for the new capability as well.
+  (ra_svn_list): Client-side implementation of the protocol.
+  (ra_svn_vtable): Register the new list function.
+
+* subversion/include/private/svn_log.h
+  (svn_log__list): Add a new internal API to allow for logging the
+                   new list command.
+
+* subversion/libsvn_subr/log.c
+  (svn_log__list): Implement.
+</msg>
+</logentry>
+<logentry
+   revision="1767196">
+<author>stefan2</author>
+<date>2016-10-30T23:19:48.142385Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_repos/list.c</path>
+</paths>
+<msg>Make ra_local tests pass again:
+Handle edge and error cases for list the same as in the client-only code.
+
+* subversion/libsvn_repos/list.c
+  (svn_repos_list):  Allow 'list' for file nodes and use the same error
+                     code for nodes that are neither file nor directory.         </msg>
+</logentry>
+<logentry
+   revision="1767195">
+<author>stefan2</author>
+<date>2016-10-30T22:42:59.534547Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_ra_svn/client.c</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/svnserve/serve.c</path>
+</paths>
+<msg>Refactoring:
+Split a couple of functions to reduce the size of upcomming commits.
+
+* subversion/libsvn_ra_svn/client.c
+  (send_dirent_fields): Extract this function from ...
+  (ra_svn_get_dir): ... this one.
+
+* subversion/svnserve/serve.c
+  (parse_dirent_fields): Extract this function from ...
+  (get_dir): ... this one.
+</msg>
+</logentry>
+<logentry
+   revision="1767194">
+<author>stefan2</author>
+<date>2016-10-30T22:30:19.206486Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_ra_svn/marshal.c</path>
+</paths>
+<msg>Close a gap in the ra_svn protocol engine:
+Boolean elements in conditional tuples were not supported but would also not
+occur in the protocol definition.  They will in the future, though.
+
+* subversion/libsvn_ra_svn/marshal.c
+  (vparse_tuple): Handle simple booleans in missing optional parts as well.</msg>
+</logentry>
+<logentry
+   revision="1767193">
+<author>stefan2</author>
+<date>2016-10-30T22:23:53.061323Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_ra_local/ra_plugin.c</path>
+</paths>
+<msg>Implement svn_ra_list in ra_local.
+
+* subversion/libsvn_ra_local/ra_plugin.c
+  (svn_ra_local__has_capability): ra_local new supports the list function.
+  (dirent_receiver_baton_t,
+   dirent_receiver,
+   svn_ra_local__list): New functions implementing the list API by trivially
+                        adapting between RA- and repos-layer.
+  (ra_local_vtable): Activate the LIST function in the vtable.</msg>
+</logentry>
+<logentry
+   revision="1767190">
+<author>stefan2</author>
+<date>2016-10-30T22:13:57.141791Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/include/svn_ra.h</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_client/list.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_ra/ra_loader.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_ra/ra_loader.h</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_ra_local/ra_plugin.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_ra_serf/serf.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_ra_svn/client.c</path>
+</paths>
+<msg>Add a RA-level function for svn_repos_list and use that to implement
+svn_client_list, if the server should support the new API.
+
+Right now, no RA layer actually implements the new API; this will be
+done in follow-up commits.
+
+* subversion/include/svn_ra.h
+  (svn_ra_dirent_receiver_t,
+   svn_ra_list):  Declare the new interface.
+  (SVN_RA_CAPABILITY_LIST): Declare a new server capability.
+
+* subversion/libsvn_ra/ra_loader.h
+  (svn_ra__vtable_t): Add LIST function.
+
+* subversion/libsvn_ra/ra_loader.c
+  (svn_ra_list): Implement the new API and check for its availability.
+
+* subversion/libsvn_client/list.c
+  (receiver_baton_t,
+   list_receiver): RA-layer-compatible wrapper around the client callback.
+  (list_internal): If we don't have to fetch any properties, use the new
+                   RA-layer API, if available.  Explicitly checking the
+                   existance of the base path is only needed if we use
+                   the client-side code.
+
+* subversion/libsvn_ra_local/ra_plugin.c
+  (ra_local_vtable): Update vtable.
+
+* subversion/libsvn_ra_serf/serf.c
+  (serf_vtable): Same.
+
+* subversion/libsvn_ra_svn/client.c
+  (ra_svn_vtable): Same.
+</msg>
+</logentry>
+<logentry
+   revision="1767187">
+<author>stefan2</author>
+<date>2016-10-30T21:45:03.220843Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/include/svn_client.h</path>
+</paths>
+<msg>* subversion/include/svn_client.h
+  (svn_client_list2): Fix ordering of @since and @deprecated.
+                      No functional change.</msg>
+</logentry>
+<logentry
+   revision="1767186">
+<author>stefan2</author>
+<date>2016-10-30T21:42:01.769501Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/include/svn_client.h</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_client/deprecated.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_client/list.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/svn/list-cmd.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/svn/svn.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/tests/cmdline/list_tests.py</path>
+</paths>
+<msg>Add support for the "--search" option to the 'list' command down to the
+svn_client level.  Provide a simple test for it.
+
+* subversion/include/svn_client.h
+  (svn_client_list4): Rev API, adding the PATTERNS parameter.
+  (svn_client_list3): Deprecate.
+
+* subversion/libsvn_client/deprecated.c
+  (svn_client_list3): Implement the deprecated API in terms of the new one.
+
+* subversion/libsvn_client/list.c
+  (match_patterns): New utility function handling the pattern matching.
+  (get_dir_contents,
+   list_internal): Add PATTERNS parameter and filter outout accordingly.
+  (list_external_items,
+   list_externals): Add PATTERNS parameter and pass it along.
+  (svn_client_list4): Bump signature and pass parameters on.
+
+* subversion/svn/list-cmd.c
+  (svn_cl__list): Gather the --search patterns and pass them to the rev'ed
+                  client API.
+
+* subversion/svn/svn.c
+  (svn_cl__cmd_table): Enabled the '--search' option for 'list'.
+
+* subversion/tests/cmdline/list_tests.py
+  (list_filtered): New test.
+  (test_list): Register the new test.</msg>
+</logentry>
+<logentry
+   revision="1767184">
+<author>stefan2</author>
+<date>2016-10-30T21:37:00.449803Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/tests/cmdline/list_tests.py</path>
+</paths>
+<msg>Follow-up to r1767183: Fix tests under Windows.
+
+* subversion/tests/cmdline/list_tests.py
+  (list_plain,
+   list_verbose): URLs must always use forward slashes.</msg>
+</logentry>
+<logentry
+   revision="1767183">
+<author>stefan2</author>
+<date>2016-10-30T21:17:26.951362Z</date>
+<paths>
+<path
+   prop-mods="true"
+   text-mods="true"
+   kind="file"
+   action="A">/subversion/trunk/subversion/tests/cmdline/list_tests.py</path>
+</paths>
+<msg>Provide a couple of basic tests for 'svn list'.  We seem to be missing them.
+
+* subversion/tests/cmdline/list_tests.py
+  New test file.</msg>
+</logentry>
+<logentry
+   revision="1767153">
+<author>stefan2</author>
+<date>2016-10-30T12:49:30.054021Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/include/svn_repos.h</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_repos/list.c</path>
+</paths>
+<msg>Finalize the svn_repos_list interface:  Name scratch pools explicitly.
+
+* subversion/include/svn_repos.h
+  (svn_repos_dirent_receiver_t,
+   svn_repos_list):  The pools given here are pure SCRATCH_POOLs.
+
+* subversion/libsvn_repos/list.c
+  (fill_dirent,
+   report_dirent,
+   do_list,
+   svn_repos_list):  Same.</msg>
+</logentry>
+<logentry
+   revision="1767150">
+<author>stefan2</author>
+<date>2016-10-30T12:43:48.337246Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/include/svn_repos.h</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_repos/list.c</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_repos/repos-test.c</path>
+</paths>
+<msg>Make the new svn_repos_list easier to use with typical client requests.
+
+Instead of a single pattern, accept an array of alternative patterns of
+which at least one must match if any patterns are given.  Sort the output
+by path to make it match the client-side implementation's output order.
+
+* subversion/include/svn_repos.h
+  (svn_repos_list):  We now support multiple glob patterns and sort the
+                     output.
+
+* subversion/libsvn_repos/list.c
+  (matches_any):  New utility function for matching against an array
+                  instead of a single pattern.
+  (report_dirent):  For efficiency reasons, we now filter early before
+                    calling this reporter function.
+  (filtered_dirent_t,
+   compare_filtered_dirent): New filtering and sorting support.
+  (do_list):  Support multiple PATTERNS.  Filter and sort the data before
+              processing it further.
+  (svn_repos_list):  Update signature, filtering and passing of parameters.
+
+* subversion/tests/libsvn_repos/repos-test.c
+  (test_list):  Adapt test case to interface change.</msg>
+</logentry>
+<logentry
+   revision="1767149">
+<author>stefan2</author>
+<date>2016-10-30T12:25:35.045657Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_repos/list.c</path>
+</paths>
+<msg>Fix a copy-n-pasto in the new svn_repos_list code.
+
+Found by: danielsh
+
+* subversion/libsvn_repos/list.c
+  (svn_repos_list): The DEPTH parameter is relevant for the top-level dir.</msg>
+</logentry>
+<logentry
+   revision="1766867">
+<author>stsp</author>
+<date>2016-10-27T19:17:18.111199Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/site/publish/docs/community-guide/general.part.html</path>
+</paths>
+<msg>* site/publish/docs/community-guide/general.part.html: Fix links to hackathon
+  news items on elego's web site and add the link for 2016's hackathon.
+
+Reminded by: danielsh
+</msg>
+</logentry>
+<logentry
+   revision="1766735">
+<author>stsp</author>
+<date>2016-10-26T20:46:46.455683Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Nomniate r1766699, r1766704, r1766711.
+</msg>
+</logentry>
+<logentry
+   revision="1766711">
+<author>stsp</author>
+<date>2016-10-26T17:45:44.316188Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_client/merge.c</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/cmdline/merge_reintegrate_tests.py</path>
+</paths>
+<msg>Avoid accessing a non-existent path while preparing a reintegrate merge.
+
+* subversion/libsvn_client/merge.c
+  (find_unsynced_ranges): Reparent the RA session to TARGET_LOC only if
+   this location actually exists within the unmerged revision range.
+ 
+* subversion/tests/cmdline/merge_reintegrate_tests.py
+  (reintegrate_noop_branch_into_renamed_branch): Remove XFAIL marker.
+</msg>
+</logentry>
+<logentry
+   revision="1766704">
+<author>stsp</author>
+<date>2016-10-26T16:52:45.790190Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/cmdline/merge_reintegrate_tests.py</path>
+</paths>
+<msg>Rename recently added test and fix its expectations.
+
+* subversion/tests/cmdline/merge_reintegrate_tests.py
+  (reintegrate_unsynced_into_renamed_branch): Rename to ...
+  (reintegrate_noop_branch_into_renamed_branch): ... this. Explain the test
+   setup correctly, and expect the final reintegrate merge to succeed.
+  (test_list): Track renamed test.
+</msg>
+</logentry>
+<logentry
+   revision="1766699">
+<author>stsp</author>
+<date>2016-10-26T16:35:03.709853Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/cmdline/merge_reintegrate_tests.py</path>
+</paths>
+<msg>Add a regression test which shows that reintegrate merges have a problem
+if the merge target branch was renamed: It tries to access the new
+(post-move) path at a revision where it didn't exist yet.
+
+* subversion/tests/cmdline/merge_reintegrate_tests.py
+  (reintegrate_unsynced_into_renamed_branch, test_list): New test.
+</msg>
+</logentry>
+<logentry
+   revision="1766621">
+<author>svn-role</author>
+<date>2016-10-26T04:00:06.620525Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="true"
+   text-mods="false"
+   kind="dir">/subversion/branches/1.9.x</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/subversion/bindings/swig/ruby/test/test_repos.rb</path>
+</paths>
+<msg>Merge r1766240 from trunk:
+
+ * r1766240
+   Fix a test failure in Ruby bindings due to modifying a frozen object
+   (NilClass)
+   Justification:
+     Fixes ruby test failures with ruby &gt;= 2.2
+   Votes:
+     +1: jamessan
+     +0: rhuijben
+</msg>
+</logentry>
+<logentry
+   revision="1766599">
+<author>stefan2</author>
+<date>2016-10-25T20:58:53.708658Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.8.x/STATUS</path>
+</paths>
+<msg>* STATUS:
+  Add r1766352 group (issue #4658).</msg>
+</logentry>
+<logentry
+   revision="1766597">
+<author>stefan2</author>
+<date>2016-10-25T20:56:11.710764Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="true"
+   text-mods="false"
+   kind="dir">/subversion/branches/1.8.x-issue4658</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.8.x-issue4658/subversion/libsvn_fs_fs/fs_fs.c</path>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.8.x-issue4658/subversion/tests/libsvn_fs_fs/fs-pack-test.c</path>
+</paths>
+<msg>On the 1.8.x-issues4658 branch:
+Merge r1766352 and r1766590 from /trunk, resolve tree due to
+refactoring done in 1.9 and adapt to a couple of renames.</msg>
+</logentry>
+<logentry
+   revision="1766593">
+<author>stefan2</author>
+<date>2016-10-25T20:23:38.314262Z</date>
+<paths>
+<path
+   action="A"
+   prop-mods="true"
+   text-mods="false"
+   kind="dir"
+   copyfrom-path="/subversion/branches/1.8.x"
+   copyfrom-rev="1766592">/subversion/branches/1.8.x-issue4658</path>
+</paths>
+<msg>Open backport branch for the issue #4658 group.</msg>
+</logentry>
+<logentry
+   revision="1766592">
+<author>stefan2</author>
+<date>2016-10-25T20:12:08.642525Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS:
+  Add r1766352 group (issue #4658).</msg>
+</logentry>
+<logentry
+   revision="1766590">
+<author>stefan2</author>
+<date>2016-10-25T20:00:56.079346Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_fs_fs/fs-fs-pack-test.c</path>
+</paths>
+<msg>Add a test case for issue #4658.
+
+* subversion/tests/libsvn_fs_fs/fs-fs-pack-test.c
+  (large_delta_against_plain): New test.
+  (test_funcs): Register new test.</msg>
+</logentry>
+<logentry
+   revision="1766588">
+<author>stsp</author>
+<date>2016-10-25T19:43:20.773061Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="true"
+   text-mods="false"
+   kind="dir">/subversion/trunk/subversion/tests/libsvn_subr</path>
+</paths>
+<msg>* subversion/tests/libsvn_subr: Add 'xml-test' to ignore list.
+</msg>
+</logentry>
+<logentry
+   revision="1766587">
+<author>stsp</author>
+<date>2016-10-25T19:31:57.659582Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_subr/xml-test.c</path>
+</paths>
+<msg>* subversion/tests/libsvn_subr/xml-test.c
+  (test_invalid_xml_signal_bailout): Fix typo in test error message.
+</msg>
+</logentry>
+<logentry
+   revision="1766585">
+<author>stsp</author>
+<date>2016-10-25T19:30:06.959335Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_subr/xml-test.c</path>
+</paths>
+<msg>Fix a spurious test failure on OpenBSD due to a bug in the test:
+
+subversion/tests/libsvn_subr/xml-test.c:184: (apr_err=SVN_ERR_TEST_FAILED)
+svn_tests: E200006: Got unxpected error '(null)'
+FAIL:  xml-test 4: test svn_xml_signal_bailout() for invalid XML
+
+* subversion/tests/libsvn_subr/xml-test.c
+  (test_invalid_xml_signal_bailout): SVN_TEST_ASSERT_ANY_ERROR() will clear the
+   error so make a copy of its status value and use it instead of err-&gt;apr_err.
+
+Found by: bb-openbsd buildbot
+</msg>
+</logentry>
+<logentry
+   revision="1766582">
+<author>stsp</author>
+<date>2016-10-25T19:08:04.635476Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+</paths>
+<msg>* subversion/libsvn_client/conflicts.c
+  (diff_file_added): Fix file existence check. It was testing the same
+   variable twice but should check two different ones instead.
+
+Found by: jamessan
+          (with Coverity)
+</msg>
+</logentry>
+<logentry
+   revision="1766568">
+<author>brane</author>
+<date>2016-10-25T17:39:28.067527Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/tools/dist/advisory.py</path>
+</paths>
+<msg>* tools/dist/advisory.py (top-level, parse_args): Fix typo in script description.
+</msg>
+</logentry>
+<logentry
+   revision="1766539">
+<author>rhuijben</author>
+<date>2016-10-25T14:22:05.197354Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/cmdline/depth_tests.py</path>
+</paths>
+<msg>* subversion/tests/cmdline/depth_tests.py
+  (fold_tree_with_deleted_moved_items): Replace two tabs with equivalent
+     spaces.
+  (test_list): Replace tab with spaces and re-indent the closing ']' to
+     the same level as used in other test files.
+</msg>
+</logentry>
+<logentry
+   revision="1766515">
+<author>rhuijben</author>
+<date>2016-10-25T11:34:54.880906Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Remove unneeded comment. Answered on irc</msg>
+</logentry>
+<logentry
+   revision="1766513">
+<author>rhuijben</author>
+<date>2016-10-25T11:19:07.380572Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Approve ruby test fix.</msg>
+</logentry>
+<logentry
+   revision="1766511">
+<author>rhuijben</author>
+<date>2016-10-25T11:07:58.597747Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Cast some gpg support votes after checking gpg sources</msg>
+</logentry>
+<logentry
+   revision="1766389">
+<author>jamessan</author>
+<date>2016-10-24T11:50:06.732407Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Nominate r1766327.</msg>
+</logentry>
+<logentry
+   revision="1766387">
+<author>jamessan</author>
+<date>2016-10-24T11:39:09.293038Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Nominate r1766323.</msg>
+</logentry>
+<logentry
+   revision="1766352">
+<author>stefan2</author>
+<date>2016-10-24T06:01:50.273856Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_fs_fs/cached_data.c</path>
+</paths>
+<msg>[Issue #4658]
+Fix a long-standing FSFS bug that causes read errors on valid / non-corrupted
+representations.  The problem occurs if
+
+    * the representation is a DELTA against a PLAIN one,
+    * spans multiple delta windows, and
+    * has a matching sub-string in some window after there were no matches
+      in the previous window.
+
+Because we used to read the PLAIN base window only if it was really needed
+due to a matching sub-string In that case, the read offset inside the PLAIN
+rep would not be updated.  As a result, when the next window needs to be
+read as the delta base, the previous one is read instead.  This would almost
+certainly result in a corrupted reconstructed fulltext.  The read will
+ultimately fail due to a checksum mismatch.
+
+A test case and issue tracker entry will follow.
+
+* subversion/libsvn_fs_fs/cached_data.c
+  (skip_plain_window): New function.
+  (get_combined_window): Always move the offset within the base rep in sync
+                         with the delta rep.</msg>
+</logentry>
+<logentry
+   revision="1766327">
+<author>jamessan</author>
+<date>2016-10-24T03:05:51.537185Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_subr/gpg_agent.c</path>
+</paths>
+<msg>Improve discovery of gpg-agent sockets.
+
+In r1600368, support was added for discovering sockets of running
+gpg-agents.  However, this was only checking $GPG_AGENT_INFO or
+$HOME/.gnupg/S.gpg-agent.  $GNUPGHOME may also be set in the environment
+to use a location other than $HOME/.gnupg as gpg's home directory.
+
+* subversion/libsvn_subr/gpg_agent.c
+  (find_running_gpg_agent): Use $GNUPGHOME/S.gpg-agent as the first fallback
+   when $GPG_AGENT_INFO is not present in the environment.  Clarify a comment
+   about the meaning of "home directory" in terms of gpg.
+</msg>
+</logentry>
+<logentry
+   revision="1766323">
+<author>jamessan</author>
+<date>2016-10-24T01:58:21.731475Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_subr/gpg_agent.c</path>
+</paths>
+<msg>* subversion/libsvn_subr/gpg_agent.c
+  (simple_gpg_agent_next_creds): Unconditionally call bye_gpg_agent when we're
+   done with gpg-agent to fix a file descriptor leak.
+</msg>
+</logentry>
+<logentry
+   revision="1766241">
+<author>jamessan</author>
+<date>2016-10-23T02:38:55.645935Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Nominate r1766240.</msg>
+</logentry>
+<logentry
+   revision="1766240">
+<author>jamessan</author>
+<date>2016-10-23T02:35:13.813319Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/bindings/swig/ruby/test/test_repos.rb</path>
+</paths>
+<msg>Fix a test failure in Ruby bindings due to modifying a frozen object (NilClass)
+
+Starting with Ruby 2.2, nil is a "frozen" object.  The test_load test calls
+repos.load_fs(nil), which leads to nil being used to create the dumpstream
+in svn_swig_rb_make_stream.
+
+* subversion/bindings/swig/ruby/test/test_repos.rb
+  (test_load): Pass a new, transient Object into repos.load_fs
+</msg>
+</logentry>
+<logentry
+   revision="1766089">
+<author>kotkov</author>
+<date>2016-10-21T17:52:42.979024Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_ra_serf/serf.c</path>
+</paths>
+<msg>Don't segfault in ra_serf_dup_session() when duplicating a session
+without a discovered repository root.
+
+This fixes a crash in conflicts-tests when running over HTTP v1 protocol.
+
+* subversion/libsvn_ra_serf/serf.c
+  (ra_serf_dup_session): Check "repos_root_str" against null before
+   attempting to parse it.
+</msg>
+</logentry>
+<logentry
+   revision="1765903">
+<author>danielsh</author>
+<date>2016-10-20T23:34:26.249578Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/tools/dist/backport/merger.py</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/tools/dist/detect-conflicting-backports.py</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/tools/dist/merge-approved-backports.py</path>
+</paths>
+<msg>backport.py: Fix a race condition involving concurrent commits to STATUS
+(see r1764633).
+
+The fix is to run 'update' at the top of the outermost loop, rather than
+immediately before calling 'svn merge'.
+
+* tools/dist/backport/merger.py
+  (merge): Don't run revert+update; instead, expect the caller to have done so.
+
+* tools/dist/merge-approved-backports.py:
+    Run 'update' and re-parse STATUS before each merge.
+
+* tools/dist/detect-conflicting-backports.py:
+    Track API change of merge().</msg>
+</logentry>
+<logentry
+   revision="1765902">
+<author>danielsh</author>
+<date>2016-10-20T23:30:46.435311Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/include/svn_checksum.h</path>
+</paths>
+<msg>* subversion/include/svn_checksum.h
+  (svn_checksum_hex_parse): Add a reminder comment summarizing list discussion.</msg>
+</logentry>
+<logentry
+   revision="1765836">
+<author>ivan</author>
+<date>2016-10-20T15:38:46.092698Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/build.conf</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_ra_serf/ra_serf.h</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_ra_serf/xml.c</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/tools/server-side/mod_dontdothat/mod_dontdothat.c</path>
+</paths>
+<msg>Use our svn_xml_parser_t wrapper around Expat XML parser in libsvn_ra_serf and
+mod_dontdothat.
+
+* build.conf
+  (libsvn_ra_serf, mod_dontdothat): Remove dependency on xml (libexpat).
+
+* subversion/libsvn_ra_serf/ra_serf.h
+  (): Do not include &lt;expat.h&gt;
+
+* subversion/libsvn_ra_serf/xml.c
+  (): Do not include &lt;expat.h&gt;
+  (XML_STATUS_OK, XML_STATUS_ERROR, XML_VERSION_AT_LEAST): Remove.
+  (expat_ctx_t): Remove INNER_ERROR and change type of PARSER to
+   svn_xml_parser_t *.
+  (parse_xml): Just use svn_xml_parse().
+  (xml_parser_cleanup): Remove.
+  (expat_start, expat_end, expat_cdata): Update to match svn_xml_parser_t
+   callback signatures.
+  (expat_response_handler): Just use svn_xml_make_parser() instead of
+   constructing XML_ParserCreate() to create XML parser. Do not register
+   pool cleanup handler, because svn_xml_parser_t will be automatically
+   freed on pool cleanup.
+
+* tools/server-side/mod_dontdothat/mod_dontdothat.c
+  (): Do not include &lt;expat.h&gt;, include "svn_xml.h"
+  (dontdothat_filter_ctx): Change type of XMLP to svn_xml_parser_t *.
+  (dontdothat_filter): Use svn_xml_parse() instead of XML_Parse().
+  (cdata): Update to match svn_xml_parser_t callback signatures.
+  (start_element, end_element): Add comment that these functions implement
+   svn_xml_start_elem and svn_xml_end_elem respectively.
+  (clean_up_parser): Remove.
+  (dontdothat_insert_filters): Just use svn_xml_make_parser() instead of
+   constructing XML_ParserCreate() to create XML parser. Do not register
+   pool cleanup handler, because svn_xml_parser_t will be automatically
+   freed on pool cleanup.
+</msg>
+</logentry>
+<logentry
+   revision="1765605">
+<author>kotkov</author>
+<date>2016-10-19T14:19:48.005913Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>* STATUS: Mention that the r1759117 group is a fix for issue #4657.
+</msg>
+</logentry>
+<logentry
+   revision="1765588">
+<author>julianfoad</author>
+<date>2016-10-19T13:24:46.789103Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/COMMITTERS</path>
+</paths>
+<msg>Update my email address (six months late).</msg>
+</logentry>
+<logentry
+   revision="1765507">
+<author>stsp</author>
+<date>2016-10-18T21:07:55.463998Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/include/svn_wc.h</path>
+</paths>
+<msg>* subversion/include/svn_wc.h
+  (svn_wc_delete4): Fix typo in docstring.
+</msg>
+</logentry>
+<logentry
+   revision="1765506">
+<author>stsp</author>
+<date>2016-10-18T21:00:57.229053Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+</paths>
+<msg>* subversion/libsvn_client/conflicts.c
+  (resolve_incoming_delete_accept): Lock the parent of the node we're deleting,
+   or the resolver will error out erroneously if accepting an incoming deletion.
+
+Found by: stilor
+</msg>
+</logentry>
+<logentry
+   revision="1765466">
+<author>kotkov</author>
+<date>2016-10-18T15:41:58.408087Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>In the tree conflict resolver, fix merging text content in the "remote move"
+vs "local edit" scenario.
+
+The issue was that if the conflict happened during merge, we were
+using mismatched right and target files when calling svn_wc_merge5().
+For instance, if we're merging from trunk to branch, we would want
+
+  - "left" file to have the ancestor's content
+  - "right" file to have the content from trunk
+  - "target" file to have the content from branch
+
+Since we were first doing a merge on the added part of the move, and then
+doing the metadata-only move, the "target" file (that arrived during merge)
+was actually having content from trunk, and the "right" file had content
+from branch.
+
+Fix this by putting aside the target's file content, and moving the file
+*before* doing a three-way merge.  Ideally, this should be performed on
+the libsvn_wc layer, and should be using a workqueue, but this is something
+left for future work.
+
+* subversion/libsvn_client/conflicts.c
+  (resolve_incoming_move_file_text_merge): Check the conflict operation
+   at the beginning of this function.  If the conflict happened as a result
+   of the merge, set aside the move target file, perform the move, and then
+   do a proper three-way merge.
+
+* subversion/tests/libsvn_client/conflicts-test.c
+  (test_merge_incoming_move_file_text_merge_conflict): Remove XFAIL comment.
+  (test_funcs): The test_merge_incoming_move_file_text_merge_conflict() test
+   now passes.
+</msg>
+</logentry>
+<logentry
+   revision="1765452">
+<author>kotkov</author>
+<date>2016-10-18T14:57:54.262143Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>Add a couple of failing tests for "remote move vs local edit" tree conflict
+resolution upon merge.
+
+These tests exploit a few problems in how we merge the file properties
+and files with keywords.  For now, I noted them in the implementation of
+the corresponding resolution option.
+
+* subversion/libsvn_client/conflicts.c
+  (resolve_incoming_move_file_text_merge): Add a comment about what needs
+   to be fixed.
+
+* subversion/tests/libsvn_client/conflicts-test.c
+  (): Include "svn_props.h".
+  (test_merge_incoming_move_file_prop_merge_conflict,
+   test_merge_incoming_move_file_text_merge_keywords): New failing tests.
+  (test_funcs): Reference new tests.
+</msg>
+</logentry>
+<logentry
+   revision="1765424">
+<author>ivan</author>
+<date>2016-10-18T12:14:34.042775Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_subr/xml.c</path>
+</paths>
+<msg>Use XML_StopParser with Expat &gt;= 1.95.8 to abort XML parsing in the middle
+of parse buffer if svn_xml_signal_bailout() was called.
+
+(Mostly copied from subversion/libsvn_ra_serf/xml.c)
+
+* subversion/libsvn_subr/xml.c
+  (XML_VERSION_AT_LEAST): New. Copied from subversion/libsvn_ra_serf/xml.c.
+  (expat_start_handler, expat_end_handler, expat_data_handler): Call
+   XML_StopParser() if SVN_PARSER-&gt;ERROR is not NULL.
+</msg>
+</logentry>
+<logentry
+   revision="1765398">
+<author>ivan</author>
+<date>2016-10-18T08:11:58.155933Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/tests/libsvn_subr/xml-test.c</path>
+</paths>
+<msg>Extend XML parser tests to validate that callbacks are not invoked after
+svn_xml_signal_bailout() is called.
+
+* subversion/tests/libsvn_subr/xml-test.c
+  (xml_callbacks_baton_t): New.
+  (strbuf_start_elem, strbuf_end_elem, strbuf_cdata): Accept
+   xml_callbacks_baton_t * as baton.
+  (err_end_elem): Accept xml_callbacks_baton_t * as baton. Log invocation to
+   stringbuf before raising error.
+  (test_simple, test_invalid_xml, test_invalid_xml_signal_bailout): Use
+   xml_callbacks_baton_t as baton for XML parser.
+  (test_signal_bailout): Use xml_callbacks_baton_t as baton for XML parser
+   callbacks and check callback invocation log.
+</msg>
+</logentry>
+<logentry
+   revision="1765386">
+<author>svn-role</author>
+<date>2016-10-18T04:00:09.500634Z</date>
+<paths>
+<path
+   text-mods="false"
+   kind="dir"
+   action="M"
+   prop-mods="true">/subversion/branches/1.9.x</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.9.x/STATUS</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.9.x/subversion/bindings/javahl/native/Prompter.cpp</path>
+</paths>
+<msg>Merge r1764851 from trunk:
+
+ * r1764851
+   Fix temporary accepting an SSL server certificate in JavaHL
+   Justification:
+     User reported problem. Simple fix.
+   Votes:
+     +1: rhuijben, brane
+</msg>
+</logentry>
+<logentry
+   revision="1765385">
+<author>svn-role</author>
+<date>2016-10-18T04:00:07.227995Z</date>
+<paths>
+<path
+   text-mods="false"
+   kind="dir"
+   action="M"
+   prop-mods="true">/subversion/branches/1.9.x</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.9.x/STATUS</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.9.x/subversion/libsvn_subr/deprecated.c</path>
+</paths>
+<msg>Merge r1761755 from trunk:
+
+ * r1761755
+   Fix link error with --disable-keychain behavior on OS/X
+   Justification:
+     User reported problem. Easy fix.
+   Votes:
+     +1: rhuijben, stefan2, brane
+</msg>
+</logentry>
+<logentry
+   revision="1765295">
+<author>rhuijben</author>
+<date>2016-10-17T14:31:12.371012Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_wc/wc.h</path>
+</paths>
+<msg>* subversion/libsvn_wc/wc.h
+  (SVN_WC__VERSION): Document 1.9.x working copy format, like we did for the
+    older versions.
+</msg>
+</logentry>
+<logentry
+   revision="1765286">
+<author>ivan</author>
+<date>2016-10-17T13:49:05.600987Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/include/svn_xml.h</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_subr/xml.c</path>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/tests/libsvn_subr/xml-test.c</path>
+</paths>
+<msg>Implement standard lifetime semantics for svn_xml_parser_t: the object will be
+automatically freed on pool cleanup. But it still can be freed explicitly
+using svn_xml_free_parser(). It's the same behavior we already have for
+svn_sqlite__db_t and similar.
+
+* subversion/include/svn_xml.h
+  (svn_xml_make_parser): Document existing and new behavior regarding
+   svn_xml_parser_t lifetime.
+
+* subversion/libsvn_subr/xml.c
+  (parser_cleanup): New.
+  (svn_xml_make_parser): Do not create SUBPOOL and allocate svn_parser_t from
+   provided POOL. Register pool cleanup handler to free Expat parser.
+
+* subversion/tests/libsvn_subr/xml-test.c
+  (test_parser_free): New test.
+  (test_funcs): Add test_parser_free to the test list.
+</msg>
+</logentry>
+<logentry
+   revision="1765254">
+<author>brane</author>
+<date>2016-10-17T12:22:06.295580Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>branches/1.9.x/STATUS: Approve r1761755.</msg>
+</logentry>
+<logentry
+   revision="1765247">
+<author>brane</author>
+<date>2016-10-17T11:57:48.038012Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.9.x/STATUS</path>
+</paths>
+<msg>branches/1.9.x/STATUS: Approve r1764851 by the two-votes-for-bindings rule.</msg>
+</logentry>
+<logentry
+   revision="1765219">
+<author>ivan</author>
+<date>2016-10-17T08:07:30.069792Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_subr/xml.c</path>
+</paths>
+<msg>Fix potential error leak in svn_xml_parser_t wrapper for XML parser discovered
+by xml-test.exe#4 test added in r1765214.
+
+* subversion/libsvn_subr/xml.c
+  (svn_xml_parse): Prefer API user error provided from callback via
+   svn_xml_signal_bailout(), instead of syntax XML error from Expat if we have
+   both.
+</msg>
+</logentry>
+<logentry
+   revision="1765216">
+<author>ivan</author>
+<date>2016-10-17T07:57:59.401845Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_subr/xml-test.c</path>
+</paths>
+<msg>Follow-up to r1765214: Use APR_EGENERAL error code instead of
+SVN_ERR_ASSERTION_FAIL as test code, since test assertion macros have special
+handling of SVN_ERR_ASSERTION_FAIL.
+
+* subversion/tests/libsvn_subr/xml-test.c
+  (err_end_elem): Return APR_EGENERAL, instead of SVN_ERR_ASSERTION_FAIL.
+  (test_signal_bailout, test_invalid_xml_signal_bailout): Expect APR_EGENERAL.
+</msg>
+</logentry>
+<logentry
+   revision="1765214">
+<author>ivan</author>
+<date>2016-10-17T07:10:36.186182Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/build.conf</path>
+<path
+   action="A"
+   prop-mods="true"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_subr/xml-test.c</path>
+</paths>
+<msg>Add basic tests for svn_xml_parser_t API.
+
+* build.conf
+  (xml-test): New.
+  (__ALL_TESTS__): Add xml-test to dependency list.
+
+* subversion/tests/libsvn_subr/xml-test.c
+  (strbuf_start_elem, strbuf_end_elem, strbuf_cdata, err_end_elem,
+   test_simple, test_invalid_xml, test_signal_bailout,
+   test_invalid_xml_signal_bailout, max_threads, test_funcs): New.
+</msg>
+</logentry>
+<logentry
+   revision="1765213">
+<author>ivan</author>
+<date>2016-10-17T06:20:48.203460Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/build.conf</path>
+</paths>
+<msg>Small correctness fix in build.conf: remove dependency on xml (libexpat) from
+serf, because serf doesn't use libexpat. Only libsvn_ra_serf does, but it has
+explicit dependency.
+
+* build.conf
+  (serf): Remove dependency on xml.
+</msg>
+</logentry>
+<logentry
+   revision="1765190">
+<author>jcorvel</author>
+<date>2016-10-16T20:58:16.249468Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/notes/diff-optimizations.txt</path>
+</paths>
+<msg>* notes/diff-optimizations.txt: Remove suggestion I.5. (Discarding
+  non-matching lines before running the LCS algorithm), since this was
+  already done a long time ago. It was implemented by Morten Kloster (moklo)
+  (in a slightly different way than the suggestion in the notes, i.e. by
+  counting tokens and skipping them later in the LCS algorithm, but it
+  does the trick nicely) and committed in r1132811.
+  While here, eliminate stale footnotes and renumber them.
+</msg>
+</logentry>
+<logentry
+   revision="1765181">
+<author>stsp</author>
+<date>2016-10-16T18:17:33.559665Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>* subversion/tests/libsvn_client/conflicts-test.c
+  (test_merge_incoming_added_dir_replace_and_merge2): Fix sandbox name.
+</msg>
+</logentry>
+<logentry
+   revision="1765180">
+<author>stsp</author>
+<date>2016-10-16T18:16:04.579242Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>* subversion/tests/libsvn_client/conflicts-test.c
+  (create_wc_with_file_add_vs_file_add_merge_conflict,
+   create_wc_with_dir_add_vs_dir_add_merge_conflict): Validate list of
+   conflict options provided by the resolver.
+</msg>
+</logentry>
+<logentry
+   revision="1765177">
+<author>stsp</author>
+<date>2016-10-16T17:51:29.202549Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>Add another conflict resolver test (XFAIL).
+
+* subversion/tests/libsvn_client/conflicts-test.c
+  (propval_different): New global constant.
+  (create_wc_with_file_add_vs_file_add_update_conflict): New helper function.
+  (test_update_incoming_added_file_text_merge, test_funcs): New test (XFAIL).
+
+</msg>
+</logentry>
+<logentry
+   revision="1765175">
+<author>stsp</author>
+<date>2016-10-16T17:19:10.742157Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>Add another conflict resolver test (XFAIL).
+
+* subversion/tests/libsvn_client/conflicts-test.c
+  (test_update_incoming_dir_move_with_nested_file_move, test_funcs): New test.
+</msg>
+</logentry>
+<logentry
+   revision="1765163">
+<author>stsp</author>
+<date>2016-10-16T14:57:24.426548Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/tests/cmdline/move_tests.py</path>
+</paths>
+<msg>* subversion/tests/cmdline/move_tests.py
+  (move_many_update_add): Fix test expecations. Since r1765148 --accept=mc
+   for tree conflicts has changed behaviour and this test started to fail.
+   Make the test accept the current behaviour.
+
+</msg>
+</logentry>
+<logentry
+   revision="1765161">
+<author>stsp</author>
+<date>2016-10-16T14:42:43.900964Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+</paths>
+<msg>* subversion/libsvn_client/conflicts.c
+  (svn_client_conflict_text_resolve_by_id): Shorten a commend and simplify
+   nested a if-statement. No functional change.
+</msg>
+</logentry>
+<logentry
+   revision="1765160">
+<author>stsp</author>
+<date>2016-10-16T14:26:28.925236Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+</paths>
+<msg>The conflict resolver should be careful when checking for moved-away paths
+in the working copy. Depending on the conflict in question the path might
+not exist and libsvn_wc will return a 'path-not-found' error.
+
+Found while messing about with random conflicts.
+
+* subversion/libsvn_client/conflicts.c
+  (describe_local_file_node_change, describe_local_dir_node_change): Handle
+   SVN_ERR_WC_PATH_NOT_FOUND error returned from svn_wc__node_was_moved_away(). 
+
+
+</msg>
+</logentry>
+<logentry
+   revision="1765159">
+<author>stsp</author>
+<date>2016-10-16T14:10:30.256680Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+</paths>
+<msg>Fix another pool lifetime bug in the conflict resolver.
+
+* subversion/libsvn_client/conflicts.c
+  (conflict_tree_get_details_incoming_delete): Pass the correct result pool
+   to find_revision_for_suspected_deletion().
+</msg>
+</logentry>
+<logentry
+   revision="1765158">
+<author>stsp</author>
+<date>2016-10-16T14:08:25.822040Z</date>
+<paths>
+<path
+   text-mods="true"
+   kind="file"
+   action="M"
+   prop-mods="false">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+</paths>
+<msg>Fix a pool lifetime bug in the conflict resolver.
+
+Fixes this text failure over ra_svn which occurred on some buildbots:
+FAIL:  conflicts-test 23: merge incoming moved dir with moved file
+
+* subversion/libsvn_client/conflicts.c
+  (find_deleted_rev): Make a deep copy of copy-&gt;copyto_path for nested moves.
+</msg>
+</logentry>
+<logentry
+   revision="1765154">
+<author>stsp</author>
+<date>2016-10-16T13:28:58.591953Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>Fix expections in a conflict resolver test to make it PASS.
+
+* subversion/tests/libsvn_client/conflicts-test.c
+  (test_merge_incoming_move_dir): It is fine that the resolver detects
+   multiple move destinations here. Verify that the list contains the
+   two candicates we expect and selec the candidate we want before
+   resolving the tree conflict.
+  (test_funcs): test_merge_incoming_move_dir now passes.
+</msg>
+</logentry>
+<logentry
+   revision="1765153">
+<author>stsp</author>
+<date>2016-10-16T13:17:55.314422Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>Fix a problem where the 'M' option (replace+merge directory on add vs add)
+would fail since it tried to merge an added directory with the standard merge
+instead of the new diff processor in the conflict resolver.
+
+Makes another conflict test PASS.
+
+* subversion/libsvn_client/conflicts.c
+  (merge_incoming_added_dir_replace): Use merge_newly_added_dir() instead
+   of svn_client__merge_locked() to merge the newly added directory into
+   the working copy.
+
+* subversion/tests/libsvn_client/conflicts-test.c
+  (test_funcs): test_merge_incoming_added_dir_replace_and_merge now passes.
+</msg>
+</logentry>
+<logentry
+   revision="1765148">
+<author>stsp</author>
+<date>2016-10-16T12:48:32.358571Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/svn/resolve-cmd.c</path>
+</paths>
+<msg>Fix a problem where svn would stop resolving tree conflicts which were
+created while resolving another tree conflict.
+
+* subversion/svn/resolve-cmd.c
+  (walk_conflicts): Do not perform path and depth filtering for new
+   tree conflicts created while resolving another tree conflict.
+   Such new tree conflicts can appear anywhere within the working copy.
+</msg>
+</logentry>
+<logentry
+   revision="1765145">
+<author>stsp</author>
+<date>2016-10-16T12:05:40.724655Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/tests/libsvn_client/conflicts-test.c</path>
+</paths>
+<msg>* subversion/libsvn_client/conflicts-test.c
+  (test_merge_incoming_move_dir_with_moved_file): Remove obsolete comment.
+</msg>
+</logentry>
+<logentry
+   revision="1765144">
+<author>stsp</author>
+<date>2016-10-16T12:02:56.235484Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/tools/dev/unix-build/Makefile.svn</path>
+</paths>
+<msg>* tools/dev/unix-build/Makefile.svn:
+   Remove obsolete --with-ssl configure option.
+</msg>
+</logentry>
+<logentry
+   revision="1765143">
+<author>stsp</author>
+<date>2016-10-16T11:58:42.096545Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/tools/dev/unix-build/Makefile.svn</path>
+</paths>
+<msg>Fix my personal build script for OpenBSD-current.
+
+In OpenBSD-current sqlite has moved from base to ports.
+As a result my system had old sqlite libs in /usr/lib, new sqlite libs
+in /usr/local/lib (same story for headers: {/usr/,/usr/local}include).
+My self-compiled svn builds now failed to run with:
+svn: E200029: Couldn't perform atomic initialization
+subversion/libsvn_subr/sqlite.c:794: (apr_err=SVN_ERR_SQLITE_ERROR)
+svn: E200030: SQLite compiled for 3.14.2, but running with 3.8.5
+
+I really really wish libtool had some logic to put private header
+and library search paths from /home before anything within /usr...
+But it does not, so let's resort to workarounds again to at least
+get this stuff to build...
+
+* tools/dev/unix-build/Makefile.svn:
+  Disable gnome-keyring because it adds -I/usr/local/include to the header
+  search path. This avoids up picking the wrong sqlite headers even though
+  --with-sqlite=$prefix is used to force use of a private copy of sqlite.
+  Also, pass an explicit prefix for zlib, which avoids adding -L/usr/lib 
+  to LDFLAGS which resulted in the wrong sqlite libs being linked in.
+</msg>
+</logentry>
+<logentry
+   revision="1765088">
+<author>stefan2</author>
+<date>2016-10-15T15:58:22.262698Z</date>
+<paths>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/include/svn_repos.h</path>
+<path
+   prop-mods="true"
+   text-mods="true"
+   kind="file"
+   action="A">/subversion/trunk/subversion/libsvn_repos/list.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/libsvn_repos/repos.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/trunk/subversion/tests/libsvn_repos/repos-test.c</path>
+</paths>
+<msg>Introduce a "directory list" operation at the repos layer.  This is the
+first step towards an efficient implementation of 'svn list -r'.
+
+The function is straight-forward with support for operation depth and
+authz.  One important use-case is "find files".  To support this with
+minimal system load, the function allows to specify a glob pattern for
+the file name and has an option to only report path and node type.
+
+* subversion/include/svn_repos.h
+  (svn_repos_dirent_receiver_t,
+   svn_repos_list):  The new API.
+
+* subversion/libsvn_repos/list.c
+  (*): New file implementing the new API. Noteworthy:
+  (fill_dirent): Factored out from ...
+  (svn_repos_stat): ... this, which has been moved here from repos.c
+
+* subversion/libsvn_repos/repos.c
+  (svn_repos_stat):  Move from here to list.c due to shared code.
+
+* subversion/tests/libsvn_repos/repos-test.c
+  (test_list): Simple test-case for the new function.
+  (test_funcs): Register new test.</msg>
+</logentry>
+<logentry
+   revision="1765006">
+<author>svn-role</author>
+<date>2016-10-15T04:00:06.470017Z</date>
+<paths>
+<path
+   prop-mods="true"
+   text-mods="false"
+   kind="dir"
+   action="M">/subversion/branches/1.9.x</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/branches/1.9.x/STATUS</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/branches/1.9.x/subversion/libsvn_wc/conflicts.c</path>
+<path
+   prop-mods="false"
+   text-mods="true"
+   kind="file"
+   action="M">/subversion/branches/1.9.x/subversion/tests/cmdline/resolve_tests.py</path>
+</paths>
+<msg>Merge the r1758128 group from trunk:
+
+* r1758128, r1758129, r1758130, r1758153
+  Fix issue #4647.
+  Justification:
+    Resolves a regression in TSVN 1.9 with the binary conflict resolution
+    dialog erroring out when selecting to resolve the conflict with the
+    local file.
+  Notes:
+    r1758129 contains the actual fix.
+    r1758153 corrects paths in the original fix.
+    r1758128 adds the regression test.
+    r1758130 removes the regression test's XFail marker
+  Votes:
+    +1 (non-binding): luke1410
+    +1: stsp, stefan2, rhuijben
+</msg>
+</logentry>
+<logentry
+   revision="1764941">
+<author>stsp</author>
+<date>2016-10-14T16:08:29.061804Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/trunk/subversion/libsvn_client/conflicts.c</path>
+</paths>
+<msg>Rework the code which detects nested moves in the conflict resolver.
+
+We now detect nested moves in a second pass, by matching all deletions to the
+moves detected in the first pass. See the code for details. The algoithm is
+still being developed and will be properly documented when it's done.
+
+* subversion/libsvn_client/conflicts.c
+  (map_deleted_path_to_copy): Remove.
+  (find_moves_in_revision): Stop handling nested moves here. 
+  (map_deleted_path_to_move, find_nested_move): New helper functions.
+  (find_deleted_rev): Call find_nested_move() to find a nested move,
+   and add the nested move to the move list if found.
+</msg>
+</logentry>
+<logentry
+   revision="1764934">
+<author>luke1410</author>
+<date>2016-10-14T15:45:29.881667Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.8.x/STATUS</path>
+</paths>
+<msg>* STATUS: Change +1 to -0 vote. Nomination is missing revision r1700130.</msg>
+</logentry>
+<logentry
+   revision="1764929">
+<author>rhuijben</author>
+<date>2016-10-14T15:07:57.720362Z</date>
+<paths>
+<path
+   action="M"
+   prop-mods="false"
+   text-mods="true"
+   kind="file">/subversion/branches/1.8.x/STATUS</path>
+</paths>
+<msg>* STATUS: Cast -0 vote. Patch doesn't fix issue.</msg>
+</logentry>
+</log>
