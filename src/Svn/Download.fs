@@ -40,7 +40,7 @@ module Download =
         |> List.map (fun f -> f repo)
         |> List.map (execute name)
         |> ignore
-        printfn "Downloaded all logs."
+        printfn "Download for %A %A %s %s is complete" p1 p2 name repo
     
     let logs p1 p2 name repo = 
         try 
