@@ -1,12 +1,14 @@
-﻿open Svn
+﻿namespace Svn
 
 module Program = 
     open Svn.Model
+    open Config
     
     [<EntryPoint>]
     let main argv = 
-        printfn "%A" (Configuration.svn_download_folder())
-        Setup.create_if_missing (Configuration.svn_download_folder())
+        let temp = conf.Svn.Temp.Download
+        printfn "%A" temp
+        Setup.create_if_missing temp
         printfn "%A" argv
         let repo = "http://svn.apache.org/repos/asf/subversion"
         let name = "subversion"

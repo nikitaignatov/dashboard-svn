@@ -1,0 +1,5 @@
+﻿Svn:
+    Exe: C:\Program Files (x86)\Subversion\bin\svn
+    Temp:
+        Download: c:\temp\svn\svn_dump
+        Import: c:\temp\svn\processed

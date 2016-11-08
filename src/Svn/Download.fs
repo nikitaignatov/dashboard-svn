@@ -1,25 +1,22 @@
 ﻿namespace Svn
 
-module Configuration = 
-    let svn_exe_path = @"C:\Program Files (x86)\Subversion\bin\svn"
-    let svn_download_folder() = System.IO.Path.GetTempPath() + @"\svn_dumps\"
-
+    
 module Setup = 
     open System.IO
     
     let create_if_missing path = 
-        if Directory.Exists path |> not then Directory.CreateDirectory(path) |>fun x-> printfn "Created dir: %A" x.FullName
+        if Directory.Exists path |> not then Directory.CreateDirectory(path) |> fun x -> printfn "Created dir: %A" x.FullName
         else printfn "folder already exists"
 
 module Download = 
     open System
     open System.IO
-    
+    open Config
     let private template year repo = (sprintf @"log %s --xml -v -r {%d-01-01}:{%d-12-31}" repo year year)
-    let private command year repo = year, Configuration.svn_exe_path, (template year repo)
+    let private command year repo = year, conf.Svn.Exe, (template year repo)
     
     let private execute name (year, cmd, argz) = 
-        let path = (sprintf "%ssvn.%s.%d.xml" (Configuration.svn_download_folder()) name year)
+        let path = (sprintf "%ssvn.%s.%d.xml" (conf.Svn.Temp.Download) name year)
         if (File.Exists path) then ()
         else 
             let p = new System.Diagnostics.Process()
