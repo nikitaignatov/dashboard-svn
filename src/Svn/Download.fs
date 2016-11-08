@@ -8,8 +8,8 @@ module Setup =
     open System.IO
     
     let create_if_missing path = 
-        if Directory.Exists path |> not then Directory.CreateDirectory(path) |> ignore
-        printfn "Dir: %s" path
+        if Directory.Exists path |> not then Directory.CreateDirectory(path) |>fun x-> printfn "Created dir: %A" x.FullName
+        else printfn "folder already exists"
 
 module Download = 
     open System
