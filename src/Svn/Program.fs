@@ -2,7 +2,6 @@
 
 module Program = 
     open Svn.Model
-    open System
     
     [<EntryPoint>]
     let main argv = 

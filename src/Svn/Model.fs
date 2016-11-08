@@ -1,11 +1,7 @@
 ﻿namespace Svn
 
 module Model = 
-    open FSharp.Data
-    
     type time = System.DateTime
-    
-    type Svn = XmlProvider< "samples/subversion.xml", Global=true >
     
     type action = 
         | Added

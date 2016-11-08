@@ -3,6 +3,9 @@
 module Import = 
     open System.IO
     open Svn.Model
+    open FSharp.Data
+    
+    type private Svn = XmlProvider< "samples/subversion.xml" >
     
     let private file_load_pattern name = sprintf @"svn.%s.*.xml" name
     let private files name = Directory.GetFiles(Configuration.svn_download_folder(), file_load_pattern name, SearchOption.TopDirectoryOnly)
