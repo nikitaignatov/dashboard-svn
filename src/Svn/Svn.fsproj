@@ -60,6 +60,7 @@
     <Compile Include="Config.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="Download.fs" />
+    <Compile Include="Mapper.fs" />
     <Compile Include="Import.fs" />
     <Compile Include="Svn.fs" />
     <Compile Include="Program.fs" />

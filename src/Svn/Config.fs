@@ -5,4 +5,4 @@ module private Config =
     
     type Config = YamlConfig< "config.yaml", ReadOnly=true >
     
-    let conf = Config()
+    let Config = Config()

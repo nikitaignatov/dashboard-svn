@@ -13,11 +13,11 @@ module Download =
     open Config
     
     let private template year repo = (sprintf @"log %s --xml -v -r {%d-01-01}:{%d-12-31}" repo year year)
-    let private command year repo = year, conf.Svn.Exe, (template year repo)
+    let private command year repo = year, Config.Svn.Exe, (template year repo)
     
     let private execute name (year, cmd, argz) = 
         let file = (sprintf "svn.%s.%d.xml" name year)
-        let path = Path.Combine((conf.Svn.Temp.Download), file)
+        let path = Path.Combine((Config.Svn.Temp.Download), file)
         if (File.Exists path) then ()
         else 
             let p = new System.Diagnostics.Process()
