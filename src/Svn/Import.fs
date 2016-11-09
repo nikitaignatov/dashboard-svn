@@ -33,6 +33,7 @@ module private Mapper =
               (action.Replaced, []) ]
         new Map<action, path list>(defaultData)
     
+    let paths (e : Svn.Path array) : Map<action, path list> = 
         e
         |> Array.groupBy (fun x -> x.Action)
         |> Array.fold (fun acc (action, items) -> 
@@ -43,6 +44,7 @@ module private Mapper =
     
     let logentry (e : Svn.Logentry) = 
         let author = defaultArg e.Author "NO_AUTHOR"
+        let paths = paths e.Paths
         commit.create e.Revision e.Date author e.Msg paths
     
     let tryMapLogentry (e : Svn.Logentry) = 
