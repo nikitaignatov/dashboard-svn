@@ -1,7 +1,7 @@
 ﻿namespace Svn
 
 module Model = 
-    type time = System.DateTime
+    type private time = System.DateTime
     
     type action = 
         | Added
@@ -9,13 +9,23 @@ module Model =
         | Deleted
         | Replaced
     
-    type file = 
+    type kind = 
+        | File
+        | Directory
+    
+    type path = 
         { path : string
-          action : action }
+          kind : kind }
     
     type commit = 
         { revision : int
           time : time
-          author : string option
+          author : string
           message : string
-          files : file list }
+          paths : Map<action, path list> }
+        static member create revision time author message paths = 
+            { revision = revision
+              time = time
+              author = author
+              message = message
+              paths = paths }

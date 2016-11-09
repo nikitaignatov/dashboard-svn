@@ -27,10 +27,7 @@ module Program =
         
         let users_files_added (action) = 
             let count (xs : commit seq) = 
-                let sumFiles c = 
-                    c.files
-                    |> List.filter (fun q -> q.action = action)
-                    |> List.length
+                let sumFiles c = c.paths.[action].Length
                 xs |> Seq.sumBy sumFiles
             cs
             |> List.groupBy (fun c -> c.author)
