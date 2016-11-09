@@ -1,4 +1,7 @@
-﻿Svn:
+﻿EventStore:
+    Ip: 127.0.0.1
+    Port: 2113
+Svn:
     Exe: C:\Program Files (x86)\Subversion\bin\svn
     Temp:
         Download: c:\temp\svn\svn_dump\

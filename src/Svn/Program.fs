@@ -10,9 +10,9 @@ module Program =
         printfn "%A" temp
         Setup.create_if_missing temp
         printfn "%A" argv
-        let repo = "http://svn.apache.org/repos/asf/subversion"
+        let repo = "http://svn.apache.org/repos/asf/subversion/trunk/subversion/"
         let name = "subversion"
-        Download.logs 2010 (System.DateTime.Now.Year) name repo
+        Download.logs 2006 (System.DateTime.Now.Year) name repo
         printfn "Donwload done."
         let cs = Import.logs name |> Seq.toList
         printfn "Import done."

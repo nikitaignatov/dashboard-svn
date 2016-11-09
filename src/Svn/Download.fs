@@ -1,6 +1,5 @@
 ﻿namespace Svn
 
-    
 module Setup = 
     open System.IO
     
@@ -12,11 +11,13 @@ module Download =
     open System
     open System.IO
     open Config
+    
     let private template year repo = (sprintf @"log %s --xml -v -r {%d-01-01}:{%d-12-31}" repo year year)
     let private command year repo = year, conf.Svn.Exe, (template year repo)
     
     let private execute name (year, cmd, argz) = 
-        let path = (sprintf "%ssvn.%s.%d.xml" (conf.Svn.Temp.Download) name year)
+        let file = (sprintf "svn.%s.%d.xml" name year)
+        let path = Path.Combine((conf.Svn.Temp.Download), file)
         if (File.Exists path) then ()
         else 
             let p = new System.Diagnostics.Process()
@@ -26,9 +27,7 @@ module Download =
             p.StartInfo.RedirectStandardOutput <- true
             p.StartInfo.RedirectStandardError <- true
             p.Start() |> ignore
-            let err = p.StandardError.ReadToEnd()
-            if (String.IsNullOrWhiteSpace(err)) then File.WriteAllText(path, p.StandardOutput.ReadToEnd())
-            else Console.Write(err)
+            File.WriteAllText(path, p.StandardOutput.ReadToEnd())
         printfn "DONE: %d" year
     
     let private logs_range p1 p2 name repo = 

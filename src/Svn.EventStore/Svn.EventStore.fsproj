@@ -57,6 +57,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
+    <None Include="config.yaml" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
